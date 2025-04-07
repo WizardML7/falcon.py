@@ -226,20 +226,25 @@ def ntru_gen(n):
     At the end of the function, polynomials f, g, F, G in Z[x]/(x ** n + 1)
     are output, which verify f * G - g * F = q mod (x ** n + 1).
     """
+    count = 1
     while True:
         f = gen_poly(n)
         g = gen_poly(n)
         if gs_norm(f, g, q) > (1.17 ** 2) * q:
+            count += 1
             continue
         f_ntt = ntt(f)
         if any((elem == 0) for elem in f_ntt):
+            count += 1
             continue
         try:
             F, G = ntru_solve(f, g)
             F = [int(coef) for coef in F]
             G = [int(coef) for coef in G]
+            print("Number of attemts for ntru_gen: " + str(count))
             return f, g, F, G
         # If the NTRU equation cannot be solved, a ValueError is raised
         # In this case, we start again
         except ValueError:
+            count += 1
             continue

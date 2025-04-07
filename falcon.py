@@ -239,11 +239,16 @@ class SecretKey:
         # From f, g, F, G, compute the basis B0 of a NTRU lattice
         # as well as its Gram matrix and their fft's.
         B0 = [[self.g, neg(self.f)], [self.G, neg(self.F)]]
+        print(B0)
         G0 = gram(B0)
+        print(G0)
         self.B0_fft = [[fft(elt) for elt in row] for row in B0]
+        print(self.B0_fft)
         G0_fft = [[fft(elt) for elt in row] for row in G0]
+        print(G0_fft)
 
         self.T_fft = ffldl_fft(G0_fft)
+        print(self.T_fft)
 
         # Normalize Falcon tree
         normalize_tree(self.T_fft, self.sigma)
@@ -337,9 +342,12 @@ class SecretKey:
         """
         int_header = 0x30 + logn[self.n]
         header = int_header.to_bytes(1, "little")
+        print(header)
 
         salt = randombytes(SALT_LEN)
+        print(salt)
         hashed = self.hash_to_point(message, salt)
+        print(hashed)
 
         # We repeat the signing procedure until we find a signature that is
         # short enough (both the Euclidean norm and the bytelength)
