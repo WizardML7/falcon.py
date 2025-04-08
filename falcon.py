@@ -254,6 +254,7 @@ class SecretKey:
         normalize_tree(self.T_fft, self.sigma)
 
         # The public key is a polynomial such that h*f = g mod (Phi,q)
+        # g in position 1 with f in position 2
         self.h = div_zq(self.g, self.f)
 
     def __repr__(self, verbose=False):
@@ -356,6 +357,7 @@ class SecretKey:
                 s = self.sample_preimage(hashed)
             else:
                 seed = randombytes(SEED_LEN)
+                # s1 and s2 generated below
                 s = self.sample_preimage(hashed, seed=seed)
             norm_sign = sum(coef ** 2 for coef in s[0])
             norm_sign += sum(coef ** 2 for coef in s[1])

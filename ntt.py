@@ -119,10 +119,11 @@ def mul_zq(f, g):
     """Multiplication of two polynomials (coefficient representation)."""
     return intt(mul_ntt(ntt(f), ntt(g)))
 
-
+# f is now in position 1 with g in position 2!! 
 def div_zq(f, g):
     """Division of two polynomials (coefficient representation)."""
     try:
+        # Note f in 1 g in 2 as this 
         return intt(div_ntt(ntt(f), ntt(g)))
     except ZeroDivisionError:
         raise
@@ -157,7 +158,7 @@ def div_ntt(f_ntt, g_ntt):
     if any(elt == 0 for elt in g_ntt):
         raise ZeroDivisionError
     return [(f_ntt[i] * inv_mod_q[g_ntt[i]]) % q for i in range(deg)]
-
+# Above is the final fix that makes this all make sense
 
 # def adj_ntt(f_ntt):
 #     """Ajoint of a polynomial (NTT representation)."""
